@@ -5,18 +5,17 @@ import org.intellij.lang.annotations.JdkConstants.ListSelectionMode
 //O projeto deverá ser apresentado na próxima aula.
 //val twoDArray = Array(2) { Array<Int>(2) { 0 } }
 
-
+//    0  1
+//0  [i] [j]
+//1  [i] [j]
 fun main(args: Array<String>) {
-    //var rows = 20
-    //var cols = 2
     var i = 0
-    var k = 1
-//    var Lista_Telefonica = Array(k) {Array<String>(2) {""} }
-//    var Controle_Saida = 0
-    do {
+    var j = 0
+    var index = 0
+    var Lista_Telefonica = mutableListOf<MutableList<String>>()
+    var Controle_Saida = 0
 
-        var Lista_Telefonica = Array(k) {Array<String>(2) {""} }
-        var Controle_Saida = 0
+    do {
 
 
         println("---MENU---")
@@ -26,17 +25,17 @@ fun main(args: Array<String>) {
         println("0 - SAIR")
         Controle_Saida = readLine()?.toInt()!!
         if(Controle_Saida == 1) {
+            Lista_Telefonica.add(mutableListOf())
             println("Insira o nome: ")
             var receber_Nome = readLine()?.capitalize()
             if (receber_Nome != "") {
-                Lista_Telefonica[i][i] = receber_Nome ?: ""
+                Lista_Telefonica[i].add(receber_Nome.toString())
                 println("Insira o numero de Telefone: ")
                 var receber_Numero = readLine()
                 if (receber_Numero != "") {
-                    Lista_Telefonica[i][i + 1] = receber_Numero ?: ""
-                    ++k
-                    println(Lista_Telefonica[i][i])
-                    println(Lista_Telefonica[i][i + 1])
+                    Lista_Telefonica[i].add(receber_Numero.toString())
+                    println(Lista_Telefonica[i][0])
+                    println(Lista_Telefonica[i][1])
                 }
             }
 
@@ -44,53 +43,59 @@ fun main(args: Array<String>) {
         if(Controle_Saida == 2) {
             println("insira o Nome que Deseja Buscar: ")
             var buscar_Nome = readLine()?.capitalize()
-            var j = 0
-            while (buscar_Nome == Lista_Telefonica[j][j]) {
-                if (buscar_Nome == Lista_Telefonica[j][j]) {
-                    println("nome: " + Lista_Telefonica[j][j])
-                    println("Numero: " + Lista_Telefonica[j][j + 1])
-                } else
+            while (buscar_Nome == Lista_Telefonica[j][0]) {
+                if (buscar_Nome != Lista_Telefonica[j][0]) {
                     j++
-                println("---MENU---- ")
-                println("Editar---- 0")
-                println("Excluir--- 1")
-                var escolha: Int = readLine()?.toInt() ?: 3
-                if (escolha == 0) {
-                    println("Insira o nome: ")
-                    var receber_Nome = readLine()?.capitalize()
-                    if (receber_Nome != "") {
-                        Lista_Telefonica[j][j] = receber_Nome ?: Lista_Telefonica[j][j]
-                        println("Insira o numero de Telefone: ")
-                        var receber_Numero = readLine()
-                        if (receber_Numero != "") {
-                            Lista_Telefonica[j][j] = receber_Numero ?: Lista_Telefonica[j][j + 1]
+                }
+                if (buscar_Nome == Lista_Telefonica[j][0]) {
+                    println("nome: " + Lista_Telefonica[j][0])
+                    println("Numero: " + Lista_Telefonica[j][1])
+
+
+                    println("---MENU---- ")
+                    println("Editar---- 0")
+                    println("Excluir--- 1")
+                    var escolha: Int = readLine()?.toInt() ?: 3
+                    if (escolha == 0) {
+                        println("Insira o nome: ")
+                        var receber_Nome = readLine()?.capitalize()
+                        if (receber_Nome != "") {
+                            Lista_Telefonica[j][0] = receber_Nome ?: Lista_Telefonica[j][0]
+                            println("Insira o numero de Telefone: ")
+                            var receber_Numero = readLine()
+                            if (receber_Numero != "") {
+                                Lista_Telefonica[j][0] = receber_Numero ?: Lista_Telefonica[j][1]
+                            }
+                            println("nome: " + Lista_Telefonica[j][0])
+                            println("Numero: " + Lista_Telefonica[j][1])
                         }
-                        println("nome: " + Lista_Telefonica[j][j])
-                        println("Numero: " + Lista_Telefonica[j][j + 1])
+                    } else if (escolha == 1) {
+                        println("deseja excluir:")
+                        println("nome: " + Lista_Telefonica[j][0])
+                        println("Numero: " + Lista_Telefonica[j][1])
+                        println("Sim--- 1")
+                        println("Não--- 0")
+                        var excluir: Int = readLine()?.toInt() ?: 3
+                        if (excluir == 1) {
+                            //Lista_Telefonica[j][0] = ""
+                            //Lista_Telefonica[j][1] = ""
+                            Lista_Telefonica.removeAt(j)
+
+                            println("nome: " + Lista_Telefonica[j][0])
+                            println("Numero: " + Lista_Telefonica[j][1])
+                            println("EXCLUIDO")
+                        }
                     }
-                } else if (escolha == 1) {
-                    println("deseja excluir:")
-                    println("nome: " + Lista_Telefonica[j][j])
-                    println("Numero: " + Lista_Telefonica[j][j + 1])
-                    println("Sim--- 1")
-                    println("Não--- 0")
-                    var excluir: Int = readLine()?.toInt() ?: 3
-                    if (excluir == 1) {
-                        Lista_Telefonica[j][j] = ""
-                        Lista_Telefonica[j][j + 1] = ""
-                        println("nome: " + Lista_Telefonica[j][j])
-                        println("Numero: " + Lista_Telefonica[j][j + 1])
-                        println("EXCLUIDO")
-                        --k
-                    } else
-                        return
                 }
             }
         }
         if(Controle_Saida == 3) {
-            println("1" + Lista_Telefonica.contentDeepToString())
+            while (index  < Lista_Telefonica.size ){
+                println("Nome: " + Lista_Telefonica[index][0] + " Numero: " + Lista_Telefonica[index][1])
+                println("------------------------------------")
+                index ++
+            }
         }
-        //++k
         i++
     }while (Controle_Saida != 0)
     return
